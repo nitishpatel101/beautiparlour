@@ -155,31 +155,67 @@ export function useFrameSequence({
       const iw = img.naturalWidth || img.width;
       const ih = img.naturalHeight || img.height;
 
-      if (!iw || !ih) return;
-
-      // Object-fit: cover math with perfect centering
-      const canvasRatio = cw / ch;
-      const imageRatio = iw / ih;
-
-      let drawWidth = cw;
-      let drawHeight = ch;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (canvasRatio > imageRatio) {
-        drawWidth = cw;
-        drawHeight = cw / imageRatio;
-        offsetY = (ch - drawHeight) / 2;
-      } else {
-        drawHeight = ch;
-        drawWidth = ch * imageRatio;
-        offsetX = (cw - drawWidth) / 2;
-      }
-
+      // Clear canvas
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
       ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+      const canvasRatio = cw / ch;
+      const imageRatio = iw / ih;
+
+      if (canvasRatio < 0.9) {
+        // MOBILE PORTRAIT SCREENS:
+        // 1. Draw ambient blurred background to fill the vertical canvas
+        const bgScale = Math.max(cw / iw, ch / ih);
+        const bgW = iw * bgScale;
+        const bgH = ih * bgScale;
+        const bgX = (cw - bgW) / 2;
+        const bgY = (ch - bgH) / 2;
+
+        ctx.save();
+        ctx.filter = "blur(18px) brightness(0.35)";
+        ctx.drawImage(img, bgX, bgY, bgW, bgH);
+        ctx.restore();
+
+        // 2. Draw the full sharp 16:9 action frame centered without cropping any hair wash, makeup, or bride details!
+        const fitW = cw;
+        const fitH = cw / imageRatio;
+        const fitY = (ch - fitH) / 2;
+
+        ctx.drawImage(img, 0, fitY, fitW, fitH);
+
+        // 3. Subtle edge softening between main video and ambient background
+        const topGrad = ctx.createLinearGradient(0, fitY, 0, fitY + 16);
+        topGrad.addColorStop(0, "rgba(0,0,0,0.6)");
+        topGrad.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = topGrad;
+        ctx.fillRect(0, fitY, fitW, 16);
+
+        const bottomGrad = ctx.createLinearGradient(0, fitY + fitH - 16, 0, fitY + fitH);
+        bottomGrad.addColorStop(0, "rgba(0,0,0,0)");
+        bottomGrad.addColorStop(1, "rgba(0,0,0,0.6)");
+        ctx.fillStyle = bottomGrad;
+        ctx.fillRect(0, fitY + fitH - 16, fitW, 16);
+      } else {
+        // DESKTOP & LANDSCAPE: Full-bleed cover
+        let drawWidth = cw;
+        let drawHeight = ch;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (canvasRatio > imageRatio) {
+          drawWidth = cw;
+          drawHeight = cw / imageRatio;
+          offsetY = (ch - drawHeight) / 2;
+        } else {
+          drawHeight = ch;
+          drawWidth = ch * imageRatio;
+          offsetX = (cw - drawWidth) / 2;
+        }
+
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+      }
+
       currentRenderedFrameRef.current = index;
     },
     []
