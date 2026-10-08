@@ -31,47 +31,47 @@ export const JewelleryScene: React.FC<JewellerySceneProps> = ({
 
   return (
     <section
-      className="relative w-full h-screen flex flex-col justify-start pt-20 sm:pt-28 px-5 sm:px-12 md:px-16 pointer-events-none transition-opacity duration-300"
+      className="relative w-full h-[100dvh] flex flex-col justify-start pt-16 sm:pt-24 px-4 sm:px-12 pointer-events-none transition-opacity duration-300"
       style={{ opacity }}
     >
-      <div className="max-w-sm sm:max-w-lg w-full flex flex-col items-start p-0">
+      <div className="max-w-xs sm:max-w-md w-full flex flex-col items-start p-0">
         {/* Section Pill Label */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm border border-[#d4af37]/50 mb-2.5 shadow-lg">
-          <Crown className="w-3.5 h-3.5 text-[#d4af37]" />
-          <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-[#d4af37] uppercase font-semibold drop-shadow-md">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/40 backdrop-blur-sm border border-[#d4af37]/40 mb-1.5 shadow-md">
+          <Crown className="w-3 h-3 text-[#d4af37]" />
+          <span className="text-[8px] sm:text-[10px] font-sans tracking-[0.2em] text-[#d4af37] uppercase font-semibold">
             04 — THE BRIDE
           </span>
         </div>
 
         {/* Heading */}
-        <h2 className="font-serif-luxury text-2xl sm:text-4xl md:text-5xl font-normal text-[#faf7f2] leading-[1.1] mb-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+        <h2 className="font-serif-luxury text-xl sm:text-3xl md:text-4xl font-normal text-[#faf7f2] leading-[1.1] mb-1 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
           Adorned in <span className="italic text-[#fceec5]">Gold</span>
         </h2>
 
         {/* Copy */}
-        <p className="font-sans text-xs sm:text-sm text-[#faf7f2] leading-relaxed font-light mb-3 max-w-md drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-          Handcrafted antique gold jewellery, regal jhumkas, and the sacred maang tikka are meticulously placed.
+        <p className="font-sans text-[11px] sm:text-sm text-[#faf7f2]/95 leading-relaxed font-light mb-2 max-w-xs sm:max-w-sm drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
+          Handcrafted gold jewellery, regal jhumkas, and the sacred maang tikka.
         </p>
 
         {/* Dynamic Milestone Card */}
-        <div className="w-full max-w-xs sm:max-w-sm pt-1">
-          <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-sm border border-[#d4af37]/40 px-3.5 py-2 rounded-2xl shadow-xl">
-            <Sparkles className="w-4 h-4 text-[#d4af37] shrink-0" />
+        <div className="w-full max-w-[240px] sm:max-w-xs pt-0.5">
+          <div className="flex items-center gap-2 bg-black/40 backdrop-blur-sm border border-[#d4af37]/35 px-2.5 py-1.5 rounded-xl shadow-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
             <div className="flex flex-col">
-              <span className="font-sans font-semibold text-xs text-[#faf7f2] drop-shadow-sm">
+              <span className="font-sans font-semibold text-[11px] text-[#faf7f2]">
                 {currentMilestone.label}
               </span>
-              <span className="font-serif-luxury italic text-[10px] sm:text-xs text-[#fceec5] drop-shadow-sm">
+              <span className="font-serif-luxury italic text-[9px] sm:text-[10px] text-[#fceec5]">
                 {currentMilestone.detail}
               </span>
             </div>
-            <span className="ml-auto font-mono text-[10px] font-bold text-[#d4af37]">
+            <span className="ml-auto font-mono text-[9px] font-bold text-[#d4af37]">
               {Math.round(stageProgress * 100)}%
             </span>
           </div>
 
           {/* Progress bar */}
-          <div className="w-full h-1 bg-white/20 rounded-full mt-2 overflow-hidden shadow-sm">
+          <div className="w-full h-1 bg-white/15 rounded-full mt-1.5 overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-[#d4af37] to-[#fceec5] transition-all duration-200"
               style={{ width: `${Math.min(100, Math.round(stageProgress * 100))}%` }}

@@ -47,6 +47,7 @@ export const ScrollController: React.FC = () => {
     const lenis = new Lenis({
       lerp: 0.08,
       smoothWheel: true,
+      syncTouch: false,
     });
     lenisRef.current = lenis;
 
@@ -162,7 +163,10 @@ export const ScrollController: React.FC = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-black text-[#faf7f2]">
+    <div
+      ref={containerRef}
+      className="relative w-full max-w-full overflow-x-hidden bg-black text-[#faf7f2] touch-pan-y select-none"
+    >
       {/* Ambient Audio Synthesizer */}
       <AmbientAudio isPlaying={isAudioPlaying} />
 
@@ -173,7 +177,7 @@ export const ScrollController: React.FC = () => {
         onToggleAudio={() => setIsAudioPlaying((prev) => !prev)}
       />
 
-      {/* Fixed Canvas Rendering 240 WebP Frames (Untouched colors, no green tint) */}
+      {/* Fixed Canvas Rendering 240 Vibrant WebP Frames */}
       <ScrollCanvas ref={canvasHandleRef} totalFrames={240} />
 
       {/* Fixed Timeline Indicator */}
@@ -184,7 +188,7 @@ export const ScrollController: React.FC = () => {
       />
 
       {/* Fixed Overlays for the 5 Stages */}
-      <div className="fixed inset-0 pointer-events-none z-10 flex flex-col justify-center">
+      <div className="fixed inset-0 w-full h-[100dvh] pointer-events-none z-10 flex flex-col justify-center overflow-hidden">
         {/* Stage 01: Girl Entry / Hero */}
         <div
           className="absolute inset-0 flex items-center"
