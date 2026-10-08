@@ -42,3 +42,5 @@ next-env.d.ts
 raw_frames/
 staging_frames/
 *.mp4
+
+.vercel
